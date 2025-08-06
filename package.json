@@ -1,5 +1,5 @@
 {
-  "name": "piccor",
+  "name": "rict_and_morty",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.9",
+    "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "graphql": "^16.11.0",
     "lucide-react": "^0.536.0",
     "next": "15.4.5",
     "react": "19.1.0",
