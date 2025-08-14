@@ -2,9 +2,28 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Smart active state detection
+  const isActiveRoute = (itemPath) => {
+    if (itemPath === '/') {
+      return pathname === '/';
+    }
+    // Check if current path starts with the nav item path
+    return pathname.startsWith(itemPath);
+  };
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -13,31 +32,42 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b">
+    <nav className={`sticky top-0 z-50 transition-all duration-500 ${
+      scrolled 
+        ? 'bg-white/90 backdrop-blur-md shadow-2xl border-b border-green-200' 
+        : 'bg-white/70 backdrop-blur-sm shadow-lg'
+    }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <Link 
             href="/" 
-            className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:scale-105 transition-transform duration-200"
+            className="group relative"
           >
-            Rick & Morty
+            <span className="text-4xl font-bold font-display text-sci-fi-animated hover:scale-110 transition-all duration-300">
+              RICK & MORTY
+            </span>
+            <div className="absolute -inset-2 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
           </Link>
           
-          <div className="flex space-x-2">
-            {navItems.map((item) => (
+          <div className="flex space-x-3">
+            {navItems.map((item, index) => (
               <Link key={item.name} href={item.path}>
                 <Button 
-                  variant={pathname === item.path ? "default" : "ghost"}
-                  className={`relative transition-all duration-200 ${
-                    pathname === item.path 
-                      ? 'bg-blue-600 text-white' 
-                      : 'hover:bg-blue-50 hover:text-blue-600'
+                  variant={isActiveRoute(item.path) ? "default" : "ghost"}
+                  className={`group relative rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 animate-slideInRight text-lg px-6 py-3 font-medium ${
+                    isActiveRoute(item.path)
+                      ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-lg' 
+                      : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 hover:text-green-600'
                   }`}
+                  style={{animationDelay: `${index * 0.1}s`}}
                 >
-                  {item.name}
-                  {pathname === item.path && (
-                    <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-pulse"></span>
+                  <span className="relative z-10 font-body">
+                    {item.name}
+                  </span>
+                  {isActiveRoute(item.path) && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 animate-pulse opacity-20"></div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 opacity-20"></div>
                 </Button>
               </Link>
             ))}

@@ -9,8 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 export default function EpisodeDetailPage({ params }) {
-  
-    const { id } = use(params);
+  const { id } = use(params);
   
   const { loading, error, data } = useQuery(GET_EPISODE, {
     variables: { id }
@@ -20,14 +19,14 @@ export default function EpisodeDetailPage({ params }) {
     return (
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <Skeleton className="h-12 w-3/4 mb-4" />
-          <Skeleton className="h-6 w-1/2 mb-8" />
+          <Skeleton className="h-16 w-3/4 mb-6" />
+          <Skeleton className="h-8 w-1/2 mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, index) => (
               <div key={index} className="space-y-4">
                 <Skeleton className="h-64 w-full rounded-lg" />
-                <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-8 w-3/4" />
+                <Skeleton className="h-6 w-1/2" />
               </div>
             ))}
           </div>
@@ -39,7 +38,7 @@ export default function EpisodeDetailPage({ params }) {
   if (error) {
     return (
       <div className="container mx-auto px-6 py-20 text-center">
-        <p className="text-red-500 text-xl">Error loading episode: {error.message}</p>
+        <p className="text-red-500 text-2xl font-body">Error loading episode: {error.message}</p>
       </div>
     );
   }
@@ -61,53 +60,55 @@ export default function EpisodeDetailPage({ params }) {
   const { season, episode: episodeNum } = getSeasonInfo(episode.episode);
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-12">
       <div className="max-w-6xl mx-auto">
         {/* Episode Header */}
-        <div className="mb-12 animate-fade-in-up">
-          <div className="flex items-center space-x-4 mb-4">
-            <Badge className="bg-blue-600 text-white">
+        <div className="mb-16 animate-fadeInUp">
+          <div className="flex items-center space-x-6 mb-6">
+            <Badge className="bg-blue-600 text-white text-xl px-6 py-3 font-semibold">
               Season {season}
             </Badge>
-            <Badge variant="outline">
+            <Badge variant="outline" className="text-xl px-6 py-3 font-medium border-2">
               Episode {episodeNum}
             </Badge>
           </div>
           
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold font-display text-gray-900 mb-8 leading-tight">
             {episode.name}
           </h1>
           
-          <div className="text-gray-600 space-y-2">
-            <p className="text-lg">Aired: {episode.air_date}</p>
-            <p>Episode Code: {episode.episode}</p>
-            <p>Characters Featured: {episode.characters.length}</p>
+          <div className="text-gray-600 space-y-3 text-xl font-body">
+            <p><span className="font-semibold">Aired:</span> {episode.air_date}</p>
+            <p><span className="font-semibold">Episode Code:</span> {episode.episode}</p>
+            <p><span className="font-semibold">Characters Featured:</span> {episode.characters.length}</p>
           </div>
         </div>
 
         {/* Characters Grid */}
-        <Card className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <CardHeader>
-            <CardTitle>Characters in this Episode</CardTitle>
+        <Card className="animate-fadeInUp shadow-2xl" style={{ animationDelay: '0.2s' }}>
+          <CardHeader className="pb-8">
+            <CardTitle className="text-3xl font-bold font-display text-gray-900">
+              Characters in this Episode
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {episode.characters.map((character, index) => (
                 <Link key={character.id} href={`/characters/${character.id}`}>
-                  <div className="group cursor-pointer p-4 border rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
-                    <Avatar className="w-16 h-16 mx-auto mb-3">
+                  <div className="group cursor-pointer p-6 border-2 border-gray-200 rounded-xl hover:shadow-xl hover:border-green-300 transition-all duration-300 hover:-translate-y-1 bg-white/60 backdrop-blur-sm">
+                    <Avatar className="w-20 h-20 mx-auto mb-4">
                       <AvatarImage src={character.image} alt={character.name} />
-                      <AvatarFallback>{character.name.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="text-xl font-bold">{character.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     
-                    <h3 className="font-semibold text-center text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl font-semibold font-display text-center text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
                       {character.name}
                     </h3>
-                    <p className="text-sm text-gray-600 text-center">{character.species}</p>
-                    <div className="flex justify-center mt-2">
+                    <p className="text-lg text-gray-600 text-center font-body mb-3">{character.species}</p>
+                    <div className="flex justify-center">
                       <Badge 
                         variant="secondary" 
-                        className={`text-xs ${
+                        className={`text-base px-3 py-1 ${
                           character.status === 'Alive' ? 'bg-green-100 text-green-800' : 
                           character.status === 'Dead' ? 'bg-red-100 text-red-800' : 
                           'bg-gray-100 text-gray-800'
