@@ -16,7 +16,7 @@ export default function EpisodesPage() {
   if (error) {
     return (
       <div className="container mx-auto px-6 py-20 text-center">
-        <p className="text-red-500 text-2xl font-body">Error loading episodes: {error.message}</p>
+        <p className="text-red-400 text-2xl font-body">Error loading episodes: {error.message}</p>
       </div>
     );
   }
@@ -25,10 +25,10 @@ export default function EpisodesPage() {
     <div className="container mx-auto px-6 py-12">
       {/* Header */}
       <div className="text-center mb-16 animate-fadeInUp">
-        <h1 className="text-5xl font-bold font-display text-gray-900 mb-6">
+        <h1 className="text-5xl font-bold font-display text-white mb-6">
           Rick & Morty Episodes
         </h1>
-        <p className="text-xl text-gray-600 mb-8 font-body max-w-3xl mx-auto">
+        <p className="text-xl text-slate-300 mb-8 font-body max-w-3xl mx-auto">
           Explore all {data?.episodes?.info?.count || '51'} episodes from the Rick and Morty series across multiple seasons and dimensions
         </p>
       </div>
@@ -38,10 +38,14 @@ export default function EpisodesPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Array.from({ length: 6 }).map((_, index) => (
             <div key={index} className="space-y-4">
-              <Skeleton className="h-48 w-full rounded-lg" />
-              <Skeleton className="h-8 w-3/4" />
-              <Skeleton className="h-6 w-1/2" />
-              <Skeleton className="h-20 w-full" />
+              <div className="glass-dark rounded-3xl overflow-hidden">
+                <Skeleton className="h-48 w-full bg-white/10" />
+                <div className="p-6">
+                  <Skeleton className="h-8 w-3/4 bg-white/10 mb-3" />
+                  <Skeleton className="h-6 w-1/2 bg-white/10 mb-4" />
+                  <Skeleton className="h-20 w-full bg-white/10" />
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -67,11 +71,11 @@ export default function EpisodesPage() {
               size="lg"
               onClick={() => setPage(page - 1)}
               disabled={!data.episodes.info.prev}
-              className="text-lg px-8 py-3 font-medium"
+              className="text-lg px-8 py-3 font-medium glass-dark border-2 border-white/20 text-white hover:bg-white/10 hover:border-emerald-400"
             >
               Previous
             </Button>
-            <span className="text-xl text-gray-600 font-body font-medium px-6">
+            <span className="text-xl text-white font-body font-medium px-6">
               Page {page} of {data.episodes.info.pages}
             </span>
             <Button 
@@ -79,7 +83,7 @@ export default function EpisodesPage() {
               size="lg"
               onClick={() => setPage(page + 1)}
               disabled={!data.episodes.info.next}
-              className="text-lg px-8 py-3 font-medium"
+              className="text-lg px-8 py-3 font-medium glass-dark border-2 border-white/20 text-white hover:bg-white/10 hover:border-emerald-400"
             >
               Next
             </Button>

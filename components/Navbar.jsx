@@ -34,8 +34,8 @@ const Navbar = () => {
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-500 ${
       scrolled 
-        ? 'bg-white/90 backdrop-blur-md shadow-2xl border-b border-green-200' 
-        : 'bg-white/70 backdrop-blur-sm shadow-lg'
+        ? 'glass border-b border-white/20 shadow-2xl' 
+        : 'glass-dark border-b border-white/10 shadow-lg'
     }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
@@ -46,7 +46,7 @@ const Navbar = () => {
             <span className="text-4xl font-bold font-display text-sci-fi-animated hover:scale-110 transition-all duration-300">
               RICK & MORTY
             </span>
-            <div className="absolute -inset-2 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+            <div className="absolute -inset-2 bg-gradient-to-r from-emerald-600 to-blue-600 rounded-lg blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
           </Link>
           
           <div className="flex space-x-3">
@@ -54,10 +54,10 @@ const Navbar = () => {
               <Link key={item.name} href={item.path}>
                 <Button 
                   variant={isActiveRoute(item.path) ? "default" : "ghost"}
-                  className={`group relative rounded-full overflow-hidden transition-all duration-300 transform hover:scale-105 animate-slideInRight text-lg px-6 py-3 font-medium ${
+                  className={`group relative rounded-2xl overflow-hidden transition-all duration-300 transform hover:scale-105 animate-slideInRight text-lg px-6 py-3 font-medium ${
                     isActiveRoute(item.path)
-                      ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-lg' 
-                      : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-blue-50 hover:text-green-600'
+                      ? 'bg-gradient-to-r from-emerald-600 to-blue-600 text-white shadow-lg border-0' 
+                      : 'glass-dark border-2 border-white/20 text-white hover:bg-white/10 hover:border-emerald-400/50'
                   }`}
                   style={{animationDelay: `${index * 0.1}s`}}
                 >
@@ -65,7 +65,7 @@ const Navbar = () => {
                     {item.name}
                   </span>
                   {isActiveRoute(item.path) && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 animate-pulse opacity-20"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 animate-pulse opacity-20"></div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 opacity-20"></div>
                 </Button>
